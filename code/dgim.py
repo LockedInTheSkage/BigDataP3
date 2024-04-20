@@ -39,7 +39,6 @@ def dgim_algorithm(stream_path, N):
     # Loop through the entire data stream, one bit at a time
     with open(stream_path) as f:
         while True:
-            print_progress_bar(pos,1010103)
             bit = f.read(1)
             
             # Clause to break while loop at the end of the stream
