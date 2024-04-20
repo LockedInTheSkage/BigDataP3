@@ -35,16 +35,21 @@ def dgim_algorithm(stream_path, N):
     pos=1
     bucket_list=[[]]
 
+    co=15
+    last_bits = ""
 
     # Loop through the entire data stream, one bit at a time
     with open(stream_path) as f:
         while True:
+            # print_progress_bar(pos,1010103)
             bit = f.read(1)
             
             # Clause to break while loop at the end of the stream
             if not bit:
                 break
-            
+            last_bits+=bit
+            if len(last_bits)>co:
+                last_bits=last_bits[1:]
             if bit=="1":
                 bucket_list[0].append(pos)
                 for b_index, bucket in enumerate(bucket_list):
@@ -57,17 +62,21 @@ def dgim_algorithm(stream_path, N):
                             bucket_list[b_index]=[bucket[2]]
                     else:
                         break
+
+            # Failsafe
             if len(bucket_list[0])>4:
                 break
-
-            pos+=1
-
-    end_time_stamp=pos
             
-                            
+            if bit=="1" or bit =="0":
+                pos+=1
+
+    end_time_stamp=pos-1
+                
+    print("Last bits: "+last_bits)
+
     return bucket_list, end_time_stamp
 
 bucket = dgim_algorithm(stream_path, N)
 
 print(f"The updated list of timestamps buckets from DGIM algorithm: \n {bucket[0]}")
-print(f"The end timestamp: {bucket[1]}")   
+print(f"The end timestamp: {bucket[1]}")
