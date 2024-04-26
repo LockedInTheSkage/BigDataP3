@@ -1,4 +1,4 @@
-
+#IGNORE
 # Default DGIM parameters
 
 stream_path = 'data/my_stream.txt'
